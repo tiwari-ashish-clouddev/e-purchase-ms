@@ -1,5 +1,6 @@
 package com.assembleyourpc.app.service;
 
+import com.assembleyourpc.app.dto.BrandRequestDTO;
 import com.assembleyourpc.app.dto.BrandResponseDTO;
 import com.assembleyourpc.app.mapper.BrandMapper;
 import com.assembleyourpc.app.model.Brand;
@@ -19,8 +20,8 @@ public class BrandService {
     private final BrandRepository brandRepository;
 
     @Transactional
-    public String saveBrand(BrandResponseDTO requestResponseDTO){
-        Brand brand = BrandMapper.INSTANCE.fromBrandRequestDtoToBrandObj(requestResponseDTO);
+    public String saveBrand(BrandRequestDTO requestDTO){
+        Brand brand = BrandMapper.INSTANCE.fromBrandRequestDtoToBrandObj(requestDTO);
         brand.setBrandCreationDT(LocalDateTime.now());
         return Optional.of(brandRepository.save(brand)).orElseThrow(() -> new RuntimeException("Unable to Save Brand.")).getBrandName()+ " is added successfully.";
     }

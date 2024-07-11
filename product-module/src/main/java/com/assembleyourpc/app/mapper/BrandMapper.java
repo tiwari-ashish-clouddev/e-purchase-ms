@@ -1,5 +1,6 @@
 package com.assembleyourpc.app.mapper;
 
+import com.assembleyourpc.app.dto.BrandRequestDTO;
 import com.assembleyourpc.app.dto.BrandResponseDTO;
 import com.assembleyourpc.app.model.Brand;
 import org.mapstruct.Mapper;
@@ -18,5 +19,5 @@ public interface BrandMapper {
     List<BrandResponseDTO> fromListOfBrandObjToListOfBrandResponseDto(List<Brand> brands);
 
     @Mapping(target = "products", ignore = true)
-    Brand fromBrandRequestDtoToBrandObj(BrandResponseDTO requestDTO);
+    Brand fromBrandRequestDtoToBrandObj(BrandRequestDTO requestDTO);
 }

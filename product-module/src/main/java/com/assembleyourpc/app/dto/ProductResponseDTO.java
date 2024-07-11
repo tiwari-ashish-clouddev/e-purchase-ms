@@ -9,6 +9,7 @@ public record ProductResponseDTO(
         String productDesc,
         Double productPricePerUnit,
         LocalDateTime productCreationDT,
+        LocalDateTime productLastUpdateDT,
         BrandResponseDTO brand,
         CategoryResponseDTO category,
         StockResponseDTO stock

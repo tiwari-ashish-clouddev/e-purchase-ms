@@ -33,8 +33,11 @@ public class Product implements Serializable {
     @Column(name = "productPricePerUnit",nullable = false)
     private Double productPricePerUnit;
 
-    @Column(name = "productCreationDT", unique = true, nullable = false)
+    @Column(name = "productCreationDT", nullable = false)
     private LocalDateTime productCreationDT;
+
+    @Column(name = "productLastUpdateDT", nullable = false)
+    private LocalDateTime productLastUpdateDT;
 
     @ManyToOne
     @JoinColumn(name = "brandId", nullable = false)

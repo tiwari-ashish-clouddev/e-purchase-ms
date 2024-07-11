@@ -1,5 +1,6 @@
 package com.assembleyourpc.app;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ public class ProductModuleApplication {
 		SpringApplication.run(ProductModuleApplication.class, args);
 	}
 
+	@Hidden
 	@GetMapping("/")
 	public ResponseEntity<String> getAppStatus(){
 		return ResponseEntity.ok("UP");

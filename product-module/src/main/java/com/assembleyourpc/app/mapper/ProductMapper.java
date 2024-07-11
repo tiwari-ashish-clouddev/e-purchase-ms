@@ -7,7 +7,6 @@ import com.assembleyourpc.app.model.Product;
 import com.assembleyourpc.app.model.Stock;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
@@ -18,20 +17,17 @@ public interface ProductMapper {
 
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
-    @Mappings({
-            @Mapping(target = "brand", ignore = true),
-            @Mapping(target = "category", ignore = true),
-            @Mapping(target = "stock", ignore = true),
-            @Mapping(target = "productId", ignore = true),
-            @Mapping(target = "productCreationDT", ignore = true)
-    })
+    @Mapping(target = "brand", ignore = true)
+    @Mapping(target = "category", ignore = true)
+    @Mapping(target = "stock", ignore = true)
+    @Mapping(target = "productId", ignore = true)
+    @Mapping(target = "productCreationDT", ignore = true)
+    @Mapping(target = "productLastUpdateDT", ignore = true)
     Product fromProductRequestDtoToProductObj(ProductRequestDTO productRequestDTO);
 
-    @Mappings({
-            @Mapping(source = "product.brand", target = "brand", qualifiedByName = "fromBrandToBrandResponseDTO"),
-            @Mapping(source = "product.category", target = "category", qualifiedByName = "fromCategoryToCategoryResponseDTO"),
-            @Mapping(source = "product.stock", target = "stock", qualifiedByName = "fromStockToStockResponseDTO")
-    })
+    @Mapping(source = "product.brand", target = "brand", qualifiedByName = "fromBrandToBrandResponseDTO")
+    @Mapping(source = "product.category", target = "category", qualifiedByName = "fromCategoryToCategoryResponseDTO")
+    @Mapping(source = "product.stock", target = "stock", qualifiedByName = "fromStockToStockResponseDTO")
     ProductResponseDTO fromProductObjToProductResponseDto(Product product);
 
     @Named("fromBrandToBrandResponseDTO")

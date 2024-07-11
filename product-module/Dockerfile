@@ -4,6 +4,6 @@ LABEL authors="Ashish R. Tiwari"
 WORKDIR /app
 COPY target/product-module.jar /app/product-module.jar
 
-EXPOSE 8081
+EXPOSE 8080
 
-CMD ["java","-jar","product-module.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=uat","-jar","product-module.jar"]

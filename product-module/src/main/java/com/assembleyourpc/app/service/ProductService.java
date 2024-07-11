@@ -7,9 +7,8 @@ import com.assembleyourpc.app.model.Brand;
 import com.assembleyourpc.app.model.Category;
 import com.assembleyourpc.app.model.Product;
 import com.assembleyourpc.app.model.Stock;
-import com.assembleyourpc.app.repository.BrandRepository;
-import com.assembleyourpc.app.repository.CategoryRepository;
 import com.assembleyourpc.app.repository.ProductRepository;
+import com.assembleyourpc.app.utils.ProductModuleUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,24 +22,24 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final BrandRepository brandRepository;
-    private final CategoryRepository categoryRepository;
+    private final ProductModuleUtil util;
 
     @Transactional
     public String saveProduct(ProductRequestDTO requestDTO){
 
-        Product product = ProductMapper.INSTANCE.fromProductRequestDtoToProductObj(requestDTO);
+        Product product = util.getProductObjFromRequestDTO(requestDTO);
 
-        Brand brand =  brandRepository.findById(requestDTO.brandId()).orElseThrow(() -> new RuntimeException("Brand is not found."));
+        Brand brand =  util.getBrandById(requestDTO.brandId());
 
-        Category category = categoryRepository.findById(requestDTO.categoryId()).orElseThrow(() -> new RuntimeException("Category is not found."));
+        Category category = util.getCategoryById(requestDTO.categoryId());
 
         product.setBrand(brand);
         product.setCategory(category);
-        product.setProductCreationDT(LocalDateTime.now());
+        LocalDateTime productEntryDT =  LocalDateTime.now();
+        product.setProductCreationDT(productEntryDT);
+        product.setProductLastUpdateDT(productEntryDT);
 
         Stock stock = new Stock();
-//        stock.setProduct(product);
         stock.setProductQuantity(requestDTO.productQuantity());
         stock.setStockCreationDT(LocalDateTime.now());
 
@@ -57,4 +56,29 @@ public class ProductService {
         return ProductMapper.INSTANCE.fromProductObjToProductResponseDto(productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found.")));
     }
 
+    @Transactional
+    public String updateProductByItsID(Long productId, ProductRequestDTO requestDTO) {
+        Product product = util.getProductById(productId);
+
+        product.setBrand(util.getBrandById(requestDTO.brandId()));
+        product.setCategory(util.getCategoryById(requestDTO.categoryId()));
+        product.setProductDesc(requestDTO.productDesc());
+        product.setProductName(requestDTO.productName());
+        product.setProductTitle(requestDTO.productTitle());
+        product.setProductPricePerUnit(requestDTO.productPricePerUnit());
+
+        Stock stock = product.getStock();
+        stock.setProductQuantity(requestDTO.productQuantity());
+        product.setStock(stock);
+
+        product.setProductLastUpdateDT(LocalDateTime.now());
+        return "Product : "+productRepository.saveAndFlush(product).getProductName()+" is updated  successfully.";
+    }
+
+    @Transactional
+    public String deleteProductById(Long productId) {
+        Product product = util.getProductById(productId);
+        productRepository.delete(util.getProductById(productId));
+        return product.getProductName()+" is removed successfully.";
+    }
 }

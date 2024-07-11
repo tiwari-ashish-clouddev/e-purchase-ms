@@ -5,7 +5,6 @@ import com.assembleyourpc.app.dto.StockResponseDTO;
 import com.assembleyourpc.app.model.Stock;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -15,14 +14,10 @@ public interface StockMapper {
 
     StockMapper INSTANCE = Mappers.getMapper(StockMapper.class);
 
-    @Mappings({
-            @Mapping(target = "stockId", ignore = true),
-            @Mapping(target = "product", ignore = true),
-            @Mapping(target = "stockCreationDT", ignore = true)
-    })
+    @Mapping(target = "stockId", ignore = true)
+    @Mapping(target = "stockCreationDT", ignore = true)
     Stock fromStockRequestDtoToStockObj(StockRequestDTO stockRequestDTO);
 
-    @Mapping(source = "stock.product.productName", target = "productName")
     StockResponseDTO fromStockObjToStockResponseDto(Stock stock);
 
     List<StockResponseDTO> fromListOfStockObjToListOfStockResponseDto(List<Stock> stocks);
