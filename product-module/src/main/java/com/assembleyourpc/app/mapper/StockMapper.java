@@ -16,8 +16,10 @@ public interface StockMapper {
 
     @Mapping(target = "stockId", ignore = true)
     @Mapping(target = "stockCreationDT", ignore = true)
+    @Mapping(target = "product", ignore = true)
     Stock fromStockRequestDtoToStockObj(StockRequestDTO stockRequestDTO);
 
+    @Mapping(source = "stock.product.productName", target = "productName")
     StockResponseDTO fromStockObjToStockResponseDto(Stock stock);
 
     List<StockResponseDTO> fromListOfStockObjToListOfStockResponseDto(List<Stock> stocks);

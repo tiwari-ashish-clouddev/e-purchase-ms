@@ -18,6 +18,8 @@ public interface BrandMapper {
 
     List<BrandResponseDTO> fromListOfBrandObjToListOfBrandResponseDto(List<Brand> brands);
 
+    @Mapping(target = "brandId", ignore = true)
     @Mapping(target = "products", ignore = true)
+    @Mapping(target = "brandCreationDT", ignore = true)
     Brand fromBrandRequestDtoToBrandObj(BrandRequestDTO requestDTO);
 }

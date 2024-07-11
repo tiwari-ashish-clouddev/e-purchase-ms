@@ -24,4 +24,7 @@ public class Stock implements Serializable {
 
     @Column(name = "stockCreationDT", nullable = false)
     private LocalDateTime stockCreationDT;
+
+    @OneToOne(mappedBy = "stock", cascade = CascadeType.ALL)
+    private Product product;
 }
